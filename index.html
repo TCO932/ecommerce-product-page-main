@@ -11,27 +11,73 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <script src="main.js" defer></script>
 </head>
 <body>
 
-  Collections
-  Men
-  Women
-  About
-  Contact
+  <header>
+    <button id="menu-btn" type="button">
+      <img src="images/icon-menu.svg" alt="Show menu">
+    </button>
+    <img src="images/logo.svg" alt="Sneakers logo">
+    <nav id="menu">
+      <ul>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#men">Men</a></li>
+        <li><a href="#women">Women</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-  Sneaker Company
+    <button id="cart-btn" type="button">
+      <img src="images/icon-cart.svg" alt="Show cart">
+    </button>
+    <div #cart></div>
+    <img class="avatar" src="images/image-avatar.png" alt="User avatar">
+  </header>
+  <main>
 
-  Fall Limited Edition Sneakers
+    <section id="product-carousel">
+      <img id="product-image" alt="Product image">
+      <button id="prev-btn" type="button"><img src="images/icon-previous.svg" alt="Show previous"></button>
+      <button id="next-btn" type="button"><img src="images/icon-next.svg" alt="Show next"></button>
+    </section>
 
-  These low-profile sneakers are your perfect casual wear companion. Featuring a 
-  durable rubber outer sole, they’ll withstand everything the weather can offer.
+    <section id="product">
+      <p class="manufacturer">
+        Sneaker Company
+      </p>
+      <h1>
+        Fall Limited Edition Sneakers
+      </h1>
+      <p class="description">
+        These low-profile sneakers are your perfect casual wear companion. Featuring a 
+        durable rubber outer sole, they’ll withstand everything the weather can offer.
+      </p>
+      <div class="price">
+        <span class="current-price">
+          $125.00
+        </span>
+        <span class="discont">
+          50%
+        </span>
+        <span class="old-price">
+          $250.00
+        </span>
+      </div>
+      <div class="quantity-container">
+        <button type="button"><img src="images/icon-minus.svg" alt="Reduce"></button>
+        <span id="quantity"> </span>
+        <button type="button"><img src="images/icon-plus.svg" alt="Add"></button>
+      </div>
+      <button type="button">
+        <img src="images/icon-cart.svg" alt="Cart icon">
+        Add to cart
+      </button>
+    </section>
+  </main>
 
-  $125.00
-  50%
-  $250.00
-
-  0
-  Add to cart
 </body>
 </html>

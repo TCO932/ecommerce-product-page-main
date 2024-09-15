@@ -34,3 +34,133 @@
     font-size: 16px;
     color: var(--color-very-dark-blue);
 }
+
+body, h1, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-4);
+
+    padding: var(--spacing-4);
+
+    position: relative;
+}
+
+header button {
+    border: none;
+    background-color: var(--color-white);
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+#menu-btn {
+    position: relative;
+    z-index: 110;
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    --menu-width: 60vw;
+    width: var(--menu-width);
+
+    background-color: var(--color-white);
+    padding: var(--spacing-20) var(--spacing-6);
+}
+
+#menu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-1 * (100vw - var(--menu-width)));
+    height: 100vh;
+    width: calc(100vw - var(--menu-width));
+
+    background-color: var(--color-black-opacity-75);
+}
+
+#menu ul {
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-6);
+}
+
+#menu ul a {
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 700;
+}
+
+#cart-btn {
+    margin-left: auto;
+}
+
+#cart {
+    display: none;
+    position: absolute;
+    height: 40px;
+}
+
+.avatar {
+    width: 32px;
+}
+
+#product-carousel {
+    position: relative;
+}
+
+#product-carousel #product-image {
+    position: relative;
+    
+    width: 100%;
+    height: 35vh;
+    
+    object-fit: cover;
+}
+
+#product-carousel button {
+    position: absolute;
+
+    top: 50%;
+    transform: translateY(-50%);
+   
+    background-color: var(--color-white);
+    
+    border-radius: 50%;
+    border: none;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: var(--spacing-9);
+    aspect-ratio: 1 / 1;
+}
+
+#product-carousel button:hover {
+    cursor: pointer;
+    color: var(--color-orange);
+}
+
+#product-carousel #prev-btn {
+    left: var(--spacing-4);
+    padding-right: 10px;
+}
+
+#product-carousel #next-btn {
+    right: var(--spacing-4);
+    padding-left: 8px;
+}
