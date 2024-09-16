@@ -1,5 +1,5 @@
 
-import { carouselHandler } from './components/carousel.js';
+import { carouselHandler, createLightbox } from './components/carousel.js';
 import { cartHandler } from './components/cart.js';
 import { menuToggler } from './components/menu.js';
 import { Product } from './Product.js';
@@ -48,16 +48,16 @@ const images = [
     },
 ]
 const carousel = carouselHandler(images)
-const thumbnails = document.querySelector('#thumbnails')
-images.forEach((image, index) => {
-    const img = document.createElement('img');
-    img.src = image.thumbnail;
-    img.alt = `Product image #${index+1}`;
-    img.addEventListener('click', () => {
-        carousel.seek(index)
-        img.focus();
-    })
-    thumbnails.appendChild(img);
+const lightbox = createLightbox(images)
+carousel.slideshow.setDuration(3000)
+carousel.thumbnails(document, (index) => {
+    carousel.slideshow.pause()
+    carousel.seek(index)
+})
+const productImage = document.getElementById('name')
+productImage.addEventListener('click', () => {
+    console.log('addEventListener lightbox')
+    lightbox.open()
 })
 
 const cart = cartHandler(onCartUpdate)
