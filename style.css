@@ -40,6 +40,11 @@ body, h1, p, ul {
     padding: 0;
 }
 
+button {
+    font-family: 'Kumbh Sans', sans-serif;
+    cursor: pointer;
+}
+
 header {
     display: flex;
     flex-direction: row;
@@ -54,11 +59,10 @@ header {
 header button {
     border: none;
     background-color: var(--color-white);
-    margin-top: 8px;
-    cursor: pointer;
 }
 
 #menu-btn {
+    margin-top: 8px;
     position: relative;
     z-index: 110;
 }
@@ -104,13 +108,87 @@ header button {
 }
 
 #cart-btn {
+    position: relative;
     margin-left: auto;
+}
+
+#cart-badge {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: -4px;
+    font-size: 0.5rem;
+    font-weight: 600;
+
+    color: var(--color-white);
+    background-color: var(--color-orange);
+    padding: 1px 6px;
+
+    border-radius: var(--spacing-2);
 }
 
 #cart {
     display: none;
     position: absolute;
-    height: 40px;
+    z-index: 200;
+    box-sizing: border-box;
+    top: 74px;
+    left: var(--spacing-2);
+    right: var(--spacing-2);
+
+    background-color: var(--color-white);
+    border-radius: var(--spacing-3);
+
+    flex-direction: column;
+}
+
+#cart .cart-header {
+    font-weight: 700;
+    padding: var(--spacing-4);
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+    
+#cart .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+}
+
+#cart .products {
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow: auto;
+}
+
+#cart .product {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
+#cart .product img {
+    height: 50px;
+    aspect-ratio: 1 / 1;
+    object-fit: scale-down;
+    border-radius: var(--spacing-1);
+}
+
+#cart .product button {
+    padding: 0;
+    background-color: transparent;
+}
+
+#cart button {
+    background-color: var(--color-orange);
+    color: var(--color-very-dark-blue);
+    font-size: 1rem;
+    font-weight: 800;
+    border-radius: var(--spacing-3);
+    padding: var(--spacing-4);
 }
 
 .avatar {
@@ -119,6 +197,11 @@ header button {
 
 #product-carousel {
     position: relative;
+}
+
+#product-carousel #thumbnails {
+    display: none;
+    flex-direction: row;
 }
 
 #product-carousel #product-image {
@@ -151,7 +234,6 @@ header button {
 }
 
 #product-carousel button:hover {
-    cursor: pointer;
     color: var(--color-orange);
 }
 
@@ -163,4 +245,207 @@ header button {
 #product-carousel #next-btn {
     right: var(--spacing-4);
     padding-left: 8px;
+}
+
+section#product {
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+#manufacturer {
+    color: var(--color-dark-grayish-blue);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+#name {
+    font-size: 2rem;
+}
+
+#description {
+    color: var(--color-dark-grayish-blue);
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: var(--spacing-2);
+}
+
+#current-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-right: var(--spacing-4);
+}
+
+#discount {
+    color: var(--color-white);
+    background-color: var(--color-very-dark-blue);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-2);
+    font-weight: 500;
+}
+
+#old-price {
+    margin-left: auto;
+    text-decoration: line-through;
+    text-decoration-color: var(--color-dark-grayish-blue);
+    text-decoration-thickness: 1px;
+    color: var(--color-dark-grayish-blue);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.quantity-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    font-weight: 800;
+
+    margin: var(--spacing-6) 0;
+}
+
+.quantity-container button {
+    padding: var(--spacing-4);
+    background-color: var(--color-light-grayish-blue);
+    border: none;
+    border-radius: var(--spacing-3);
+}
+
+#add-to-card-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-4);
+
+    background-color: var(--color-orange);
+    color: var(--color-very-dark-blue);
+    font-size: 1rem;
+    
+    font-weight: 800;
+    
+    border-radius: var(--spacing-3);
+    border: none;
+    
+    padding: var(--spacing-4);
+}
+
+#add-to-card-btn img {
+    height: 1rem;
+}
+
+@media (min-width: 768px) {
+    body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    main {
+        display: flex;
+        flex-direction: row;
+
+        max-width: 1024px;
+    }
+
+    header {
+        position: absolute;
+        top: var(--spacing-6);
+        right: 0;
+        left: 0;
+    }
+
+    #menu {
+        display: block;
+        position: static;
+
+        padding: 0;
+
+        height: auto;
+        width: auto;
+    }
+
+    #menu::after {
+        content: none;
+    }
+
+    #menu ul {
+        flex-direction: row;
+    }
+    
+    #menu ul a {
+        font-weight: 300;
+    }
+
+    #cart {
+        max-width: 360px;
+        top: 0;
+        right: 200px;
+        left: auto;
+
+        box-shadow: 0px 8px 20px -10px var(--color-black-opacity-75);
+    }
+
+    #product-carousel {
+        flex: 1;
+        
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-6);
+    }
+
+    #product-carousel #product-image {
+        aspect-ratio: 1 / 1;
+        object-fit: scale-down;
+
+        height: auto;
+        width: 100%;
+
+        border-radius: var(--spacing-4);
+    }
+
+    #product-carousel button {
+        display: none;
+    }
+
+    #product-carousel #thumbnails {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    #product-carousel #thumbnails img {
+        width: 90px;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--spacing-2);
+    }
+
+    #product-carousel #thumbnails img:focus {
+        border: 2px solid var(--color-orange) inset;
+    }
+
+    #product {
+        flex: 1;
+
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+
 }
