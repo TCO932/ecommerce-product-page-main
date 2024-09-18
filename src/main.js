@@ -27,8 +27,8 @@ const carousel = carouselHandler(images)
 const lightbox = createLightbox(images)
 carousel.slideshow.setDuration(5000)
 carousel.thumbnails(document, (index) => {
-    carousel.slideshow.pause()
     carousel.seek(index)
+    carousel.slideshow.pause()
 })
 
 const cart = cartHandler(onCartUpdate)

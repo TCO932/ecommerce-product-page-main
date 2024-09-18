@@ -7,7 +7,7 @@ function carouselHandler(images, parent) {
     }
     let index = 0;
     const duration = 500;
-    const animDuration = 3000;
+    const animDuration = 500;
 
     images.forEach((item, i) => {
         const img = document.createElement('img');
@@ -31,13 +31,14 @@ function carouselHandler(images, parent) {
 
     function prev() {
         const newIndex = index - 1 > -1 ? index - 1 : images.length - 1;
+        const currentIndex = index
         
-        
-        imageElems[newIndex].classList.add('right-to-mid');
-        imageElems[currentIndex].classList.add('mid-to-left');
+        clearAnim()
+        imageElems[newIndex].classList.add('left-to-mid');
+        imageElems[currentIndex].classList.add('mid-to-right');
         setTimeout(() => {
-            imageElems[newIndex].classList.remove('right-to-mid');
-            imageElems[currentIndex].classList.remove('mid-to-left');
+            imageElems[newIndex].classList.remove('left-to-mid');
+            imageElems[currentIndex].classList.remove('mid-to-right');
         }, animDuration);
         
         index = newIndex
@@ -48,6 +49,7 @@ function carouselHandler(images, parent) {
         const newIndex = index + 1 < images.length ? index + 1 : 0;
         const currentIndex = index
         
+        clearAnim()
         imageElems[newIndex].classList.add('right-to-mid');
         imageElems[currentIndex].classList.add('mid-to-left');
         setTimeout(() => {
@@ -59,10 +61,16 @@ function carouselHandler(images, parent) {
         onChange()
     }
 
+    function clearAnim() {
+        imageElems.forEach(img => {
+            img.classList.remove('left-to-mid', 'mid-to-right', 'right-to-mid', 'mid-to-left')
+        })
+    }
+
     function seek(newIndex) {
         if (Number.isInteger(newIndex) && newIndex >= 0 && newIndex <= images.length - 1) {
-            onChange()
             index = newIndex;
+            onChange()
         }
     }
 
@@ -70,28 +78,13 @@ function carouselHandler(images, parent) {
         setActive()
         onChangeCallback(index)
     }
+    
     function onChangeCallback() {}
-
-
-    function animate(newIndex) {
-        const nextImage = imageElems[index]
-        if (index < newIndex) {
-            nextImage.classList.add('animate-left');
-            setTimeout(() => {
-                nextImage.classList.remove('animate-left');
-            }, animDuration);
-        } else {
-            nextImage.classList.add('animate-right');
-            setTimeout(() => {
-                nextImage.classList.remove('animate-right');
-            }, animDuration);
-        }
-    }
 
 
     const slideshow = (() => {
         let interval
-        let duration = 1000
+        let duration = 10000
 
         function setDuration(newDuration) {
             if (Number.isInteger(newDuration) && newDuration >= 0) {
@@ -112,7 +105,7 @@ function carouselHandler(images, parent) {
             clearInterval(interval);
         }
 
-        function pause(duration = 3000) {
+        function pause(duration = 15000) {
             off()
             if (Number.isInteger(duration) && duration >= 0) {
                 setTimeout(() => {
@@ -160,8 +153,14 @@ function carouselHandler(images, parent) {
 
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
-    prevBtn.addEventListener('click', prev);
-    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', () => {
+        prev()
+        slideshow.pause()
+    });
+    nextBtn.addEventListener('click', () => {
+        next()
+        slideshow.pause()
+    });
 
     return {
         seek: seek,
@@ -224,8 +223,14 @@ const createLightbox = (images) => {
         
         const prevBtn = lightboxElem.querySelector('#prev-btn');
         const nextBtn = lightboxElem.querySelector('#next-btn');
-        prevBtn.addEventListener('click', carousel.prev);
-        nextBtn.addEventListener('click', carousel.next);
+        prevBtn.addEventListener('click', () => {
+            carousel.prev()
+            carousel.slideshow.pause()
+        });
+        nextBtn.addEventListener('click', () => {
+            carousel.next()
+            carousel.slideshow.pause()
+        });
 
         const imgHeight = lightboxElem.querySelector('img').getBoundingClientRect().height
         prevBtn.style.display = 'flex'

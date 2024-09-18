@@ -75,16 +75,16 @@ function cartHandler(callback) {
     }
 
     function add(product) {
-        basket.push(product)
-        onUpdate()
-        console.log(basket)
+        if (product?.quantity > 0) {
+            basket.push(product)
+            onUpdate()
+        }
     }
 
     function remove(index) {
         if (index > -1) {
             basket.splice(index, 1);
             onUpdate()
-            console.log(basket)
         }
     }
 
@@ -95,7 +95,6 @@ function cartHandler(callback) {
     }
 
     function onUpdate() {
-        console.log('updated')
         if (typeof callback == 'function') {
             callback()
         }
