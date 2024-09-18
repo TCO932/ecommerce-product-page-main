@@ -4,30 +4,6 @@ import { cartHandler } from './components/cart.js';
 import { menuToggler } from './components/menu.js';
 import { Product } from './Product.js';
 
-const { toggle, show, hide, getState } = menuToggler()
-function handleMediaChange(e) {
-    const menuBtn = document.querySelector('#menu-btn')
-    if (e.matches) {
-        menuBtn.addEventListener('click', toggle)
-        menuBtn.style.display = 'block'
-        // document.addEventListener('click', function(event) {
-        //     console.log('clicked');
-        //     if (!menuBtn.contains(event.target) && !menu.contains(event.target) && getState() === true) {
-        //         hide();
-        //         console.log(event.target);
-        //         console.log('overlay clicked');
-        //     }
-        // });
-    } else {
-        menuBtn.removeEventListener('click', toggle)
-        menuBtn.style.display = 'none'
-    }
-}
-
-const mediaQuery = window.matchMedia('(max-width: 768px)');
-handleMediaChange(mediaQuery);
-mediaQuery.addEventListener('change', handleMediaChange);
-
 
 const images = [
     {
@@ -49,15 +25,10 @@ const images = [
 ]
 const carousel = carouselHandler(images)
 const lightbox = createLightbox(images)
-carousel.slideshow.setDuration(3000)
+carousel.slideshow.setDuration(5000)
 carousel.thumbnails(document, (index) => {
     carousel.slideshow.pause()
     carousel.seek(index)
-})
-const productImage = document.getElementById('name')
-productImage.addEventListener('click', () => {
-    console.log('addEventListener lightbox')
-    lightbox.open()
 })
 
 const cart = cartHandler(onCartUpdate)
@@ -114,3 +85,24 @@ document.querySelector('#add-btn').addEventListener('click', () => {
 document.querySelector('#add-to-card-btn').addEventListener('click', () => {
     cart.add({...productData})
 })
+
+
+const imageContainer = document.querySelector('.product-image-container')
+const { toggle, show, hide, getState } = menuToggler()
+function handleMediaChange(e) {
+    const menuBtn = document.querySelector('#menu-btn')
+    if (e.matches) {
+        menuBtn.addEventListener('click', toggle)
+        menuBtn.style.display = 'block'
+        
+        imageContainer.removeEventListener('click', lightbox.open)
+    } else {
+        menuBtn.removeEventListener('click', toggle)
+        menuBtn.style.display = 'none'
+        imageContainer.addEventListener('click', lightbox.open)
+    }
+}
+
+const mediaQuery = window.matchMedia('(max-width: 768px)');
+handleMediaChange(mediaQuery);
+mediaQuery.addEventListener('change', handleMediaChange);

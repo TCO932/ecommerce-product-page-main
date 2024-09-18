@@ -1,40 +1,93 @@
 function carouselHandler(images, parent) {
-    let carouselImg
+    let carouselContainer
     if (parent) {
-        carouselImg = parent.querySelector('#product-image');
+        carouselContainer = parent.querySelector('.product-image-container');
     } else {
-        carouselImg = document.getElementById('product-image');
+        carouselContainer = document.querySelector('.product-image-container');
     }
     let index = 0;
     const duration = 500;
+    const animDuration = 3000;
 
-    if (images.length) {
-        carouselImg.setAttribute('src', images[index].image);
+    images.forEach((item, i) => {
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = `Product image #${i+1}`;
+        carouselContainer.appendChild(img);
+    })
+
+    const imageElems = Array.from(carouselContainer.children)
+
+    function setActive() {
+        imageElems.forEach((imgElem, i) => {
+            imgElem.classList.remove('active')
+            if (index == i) {
+                imgElem.classList.add('active')
+            }
+        })
     }
 
+    setActive()
+
     function prev() {
-        index = index - 1 > -1 ? index - 1 : images.length - 1;
-        carouselImg.setAttribute('src', images[index].image);
-        onChange(index)
-        // animate('right')
+        const newIndex = index - 1 > -1 ? index - 1 : images.length - 1;
+        
+        
+        imageElems[newIndex].classList.add('right-to-mid');
+        imageElems[currentIndex].classList.add('mid-to-left');
+        setTimeout(() => {
+            imageElems[newIndex].classList.remove('right-to-mid');
+            imageElems[currentIndex].classList.remove('mid-to-left');
+        }, animDuration);
+        
+        index = newIndex
+        onChange()
     }
 
     function next() {
-        index = index + 1 < images.length ? index + 1 : 0;
-        carouselImg.setAttribute('src', images[index].image);
-        onChange(index)
-        // animate('left')
+        const newIndex = index + 1 < images.length ? index + 1 : 0;
+        const currentIndex = index
+        
+        imageElems[newIndex].classList.add('right-to-mid');
+        imageElems[currentIndex].classList.add('mid-to-left');
+        setTimeout(() => {
+            imageElems[newIndex].classList.remove('right-to-mid');
+            imageElems[currentIndex].classList.remove('mid-to-left');
+        }, animDuration);
+
+        index = newIndex
+        onChange()
     }
 
     function seek(newIndex) {
         if (Number.isInteger(newIndex) && newIndex >= 0 && newIndex <= images.length - 1) {
+            onChange()
             index = newIndex;
-            carouselImg.setAttribute('src', images[index].image);
-            onChange(index)
         }
     }
 
-    function onChange() {}
+    function onChange() {
+        setActive()
+        onChangeCallback(index)
+    }
+    function onChangeCallback() {}
+
+
+    function animate(newIndex) {
+        const nextImage = imageElems[index]
+        if (index < newIndex) {
+            nextImage.classList.add('animate-left');
+            setTimeout(() => {
+                nextImage.classList.remove('animate-left');
+            }, animDuration);
+        } else {
+            nextImage.classList.add('animate-right');
+            setTimeout(() => {
+                nextImage.classList.remove('animate-right');
+            }, animDuration);
+        }
+    }
+
 
     const slideshow = (() => {
         let interval
@@ -92,7 +145,7 @@ function carouselHandler(images, parent) {
             thumbnail.appendChild(img);
             thumbnails.appendChild(thumbnail);
         })
-        onChange = (index) => {
+        onChangeCallback = (index) => {
             Array.from(thumbnails.children).forEach((child, i) => {
                 if (index == i) {
                     child.classList.add('selected')
@@ -100,26 +153,9 @@ function carouselHandler(images, parent) {
                     child.classList.remove('selected')
                 }
             })
-            console.log(index)
         }
-        onChange(index)
+        onChangeCallback(index)
     }
-
-
-    function animate(direction) {
-        if (direction == 'left') {
-            carouselImg.classList.add('slide-out');
-            setTimeout(() => {
-                carouselImg.classList.remove('slide-out');
-            }, duration);
-        } else if (direction == 'right') {
-            carouselImg.classList.add('slide-in');
-            setTimeout(() => {
-                carouselImg.classList.remove('slide-in');
-            }, duration);
-        }
-    }
-    carouselImg.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease;`;
 
 
     const prevBtn = document.getElementById('prev-btn');
@@ -138,9 +174,9 @@ function carouselHandler(images, parent) {
 
 const createLightbox = (images) => {
     const lightboxElem = document.getElementById('product-carousel').cloneNode(true);
+    lightboxElem.querySelector('.product-image-container').replaceChildren()
     const carousel = carouselHandler(images, lightboxElem)
     carousel.thumbnails(lightboxElem, (index) => {
-        // carousel.slideshow.pause()
         carousel.seek(index)
     })
 
@@ -152,7 +188,6 @@ const createLightbox = (images) => {
         lightboxElem.style.transform = 'translate(-50%, -50%)';
         lightboxElem.style.zIndex = '1000';
         lightboxElem.style.backgroundColor = 'white';
-        lightboxElem.style.padding = '20px';
         lightboxElem.style.backgroundColor = 'transparent';
         lightboxElem.style.width = '500px'
             
@@ -174,13 +209,12 @@ const createLightbox = (images) => {
         closeImg.alt = 'Close';
         closeBtn.appendChild(closeImg);
         closeBtn.style.position = 'fixed';
-        closeBtn.style.top = '-8px';
-        closeBtn.style.right = '-8px';
-        closeBtn.style.transform = 'translate(50%, -50%)';
+        closeBtn.style.top = '-20px';
+        closeBtn.style.right = '0';
+        closeBtn.style.width = 'auto';
         closeBtn.style.display = 'flex'
-        closeBtn.addEventListener('click', () => {
-            closeLightbox()
-        })
+        closeBtn.classList.add('close-btn');
+        closeBtn.addEventListener('click', closeLightbox)
     
 
         lightboxElem.appendChild(closeBtn);
@@ -195,11 +229,14 @@ const createLightbox = (images) => {
 
         const imgHeight = lightboxElem.querySelector('img').getBoundingClientRect().height
         prevBtn.style.display = 'flex'
-        prevBtn.style.top = `${(imgHeight/2).toFixed(0)}px`
-        prevBtn.style.transform = 'translate(-40%, 50%)';
+        prevBtn.style.top = `250px`
+        prevBtn.style.left = '0';
+        prevBtn.style.transform = 'translate(-50%, -50%)';
+
         nextBtn.style.display = 'flex'
-        nextBtn.style.top = `${(imgHeight/2).toFixed(0)}px`
-        nextBtn.style.transform = 'translate(40%, 50%)';
+        nextBtn.style.top = `250px`
+        nextBtn.style.right = '0';
+        nextBtn.style.transform = 'translate(50%, -50%)';
 
         backdrop.addEventListener('click', closeLightbox);
     }
@@ -211,8 +248,6 @@ const createLightbox = (images) => {
         if (backdrop) backdrop.remove();
     }
 
-    console.log('init lightbox')
-    
     return {
         open: openLightbox,
         close: closeLightbox,

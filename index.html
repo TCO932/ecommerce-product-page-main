@@ -42,7 +42,7 @@
       </div>
       <div class="container">
         <div class="products"></div>
-        <button type="button">Checkout</button>
+        <button class="text-btn" type="button">Checkout</button>
       </div>
     </div>
 
@@ -51,7 +51,8 @@
   <main>
 
     <section id="product-carousel">
-      <img id="product-image" alt="Product image">
+      <div class="product-image-container">
+      </div>
       <button id="prev-btn" type="button"><img src="images/icon-previous.svg" alt="Show previous"></button>
       <button id="next-btn" type="button"><img src="images/icon-next.svg" alt="Show next"></button>
       <div id="thumbnails"></div>
@@ -67,11 +68,11 @@
         <span id="old-price"></span>
       </div>
       <div class="quantity-container">
-        <button id="reduce-btn" type="button"><img src="images/icon-minus.svg" alt="Reduce"></button>
+        <button id="reduce-btn" class="icon-btn" type="button"><img src="images/icon-minus.svg" alt="Reduce"></button>
         <span id="quantity"></span>
-        <button id="add-btn" type="button"><img src="images/icon-plus.svg" alt="Add"></button>
+        <button id="add-btn" class="icon-btn" type="button"><img src="images/icon-plus.svg" alt="Add"></button>
       </div>
-      <button id="add-to-card-btn" type="button">
+      <button id="add-to-card-btn" class="text-btn" type="button">
         <img src="images/icon-cart.svg" alt="Cart icon">
         Add to cart
       </button>
